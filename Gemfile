@@ -50,3 +50,4 @@ gem 'devise'
 gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
 gem 'devise-bootstrap-views'
 gem "haml-rails"
+gem 'stock_quote'
