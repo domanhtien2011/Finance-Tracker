@@ -1,0 +1,18 @@
+.navbar.navbar-default.navbar-static-top
+  .container
+    = link_to 'Finance Tracker', root_url, class: 'navbar-brand'
+    - if current_user
+      %button.navbar-toggle{"data-target" => ".navbar-responsive-collapse", "data-toggle" => "collapse", :type => "button"}
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      .navbar-collapse.collapse.navbar-responsive-collapse
+        %ul.nav.navbar-nav.col-xs-6
+          %li= link_to "My Portfolio", my_portfolio_path
+          %li= link_to "My Profile", edit_registration_path(current_user)
+          %li= link_to "Link3", "/path3"
+        %ul.nav.navbar-right.col-xs-4
+          %li.col-xs-8.user-name.text-right
+            %i.fa.fa-user
+              = current_user.full_name.present? ? current_user.full_name : current_user.email
+          %li.col-xs-4.logout= link_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-xs btn-danger"
