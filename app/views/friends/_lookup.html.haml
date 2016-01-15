@@ -1,0 +1,33 @@
+#friend-lookup
+  = form_tag search_friends_path, remote: true, method: :get, id: 'friend-lookup-form' do
+    .form-group.row.no-padding.text-center
+      .col-sm-10
+        = text_field_tag :search_param, params[:search_param], placeholder: 'name or email', autofocus: true, class: 'form-control search-box imput-lg'
+      .col-sm-2
+        = button_tag type: :submit, class: 'btn btn-success' do
+          %i.fa.fa-search
+          Look up a friend
+  = render 'common/spinner'
+  - if @users
+    - if @users.any?
+      #friend-lookup-results.well.results-block
+        %table.table.search-results-table
+          %tbody
+            - @users.each do |user|
+              %tr
+                %td
+                  %strong Name:
+                  = user.full_name
+                %td
+                  %strong Email:
+                  = user.email
+                %td
+                  %strong Profile:
+                  = link_to 'Show profile', user, class: 'btn btn-xs btn-success'
+                  - if current_user.not_friends_with? user
+                    = link_to 'Add as friend', add_friend_path(user: current_user, friend: user), method: :post, class: 'btn btn-xs btn-success'
+                  - else
+                    %span.label.label-primary You are friends.
+    - else
+      %p.lead No-one matches the search criteria.
+  #friend-lookup-errors
