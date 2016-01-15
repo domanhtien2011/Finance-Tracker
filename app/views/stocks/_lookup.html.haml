@@ -17,6 +17,15 @@
       = @stock.name
       %strong Price:
       = @stock.price
+      - if current_user.can_add_stock?(@stock.ticker)
+        = link_to("Add to my stock", user_stocks_url(user: current_user, stock_ticker: @stock.ticker, stock_id: @stock.id ? @stock.id : ''), class: "btn btn-success btn-xs", method: :post)
+      - else
+        %span.label.label-default
+          Stock cannot be added because you have already added
+          - if !current_user.under_stock_limit?
+            10 stocks
+          - if current_user.stock_already_added?(@stock.ticker)
+            this stock
 
   #stock-lookup-errors
 

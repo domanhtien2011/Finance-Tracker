@@ -1,8 +1,13 @@
 class Stock < ActiveRecord::Base
+  has_many :user_stocks
+  has_many :users, through: :user_stocks
+
+  # Search whether the stock is already in the database or not
   def self.find_by_ticker(ticker_symbol)
     where(ticker: ticker_symbol).first
   end
 
+  # Search stock online by using the gem stock_quote
   def self.new_from_lookup(ticker_symbol)
     looked_up_stock = StockQuote::Stock.quote(ticker_symbol)
     return nil unless looked_up_stock.name
@@ -12,6 +17,7 @@ class Stock < ActiveRecord::Base
     new_stock
   end
 
+  # Look for the stock'closing or opening price online by using the gem stock_quote
   def price
     closing_price = StockQuote::Stock.quote(ticker).close
     return "#{closing_price} (Closing)" if closing_price
